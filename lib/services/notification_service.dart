@@ -1,5 +1,6 @@
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_native_timezone/flutter_native_timezone.dart';
+import 'package:simple_reminder/models/reminder_model.dart';
 import 'package:timezone/data/latest.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
 
@@ -51,33 +52,25 @@ class NotificationService {
     );
   }
 
-  Future scheduleNotification({
-    required int id,
-    required String title,
-    required String description,
-    required DateTime dateTime,
-  }) async {
-    flutterLocalNotificationsPlugin.zonedSchedule(
-      id,
-      title,
-      description,
-      notificationTime(dateTime),
-      getNotificationDetails(),
-      uiLocalNotificationDateInterpretation:
-          UILocalNotificationDateInterpretation.absoluteTime,
-      androidAllowWhileIdle: true,
-    );
-
-    print('notification set at $dateTime');
+  Future scheduleNotification(Reminder reminder) async {
+    if (reminder.dateTime != null) {
+      flutterLocalNotificationsPlugin.zonedSchedule(
+        reminder.key,
+        reminder.title,
+        reminder.description,
+        notificationTime(reminder.dateTime!),
+        getNotificationDetails(),
+        uiLocalNotificationDateInterpretation:
+            UILocalNotificationDateInterpretation.absoluteTime,
+        androidAllowWhileIdle: true,
+      );
+      print('notification set at ${reminder.dateTime}');
+    } else {
+      return;
+    }
   }
 
-  Future<bool> goalHasNotification(int key) async {
-    var pendingNotifications =
-        await flutterLocalNotificationsPlugin.pendingNotificationRequests();
-    return pendingNotifications.any((notification) => notification.id == key);
-  }
-
-  void cancelNotification({required int id}) {
+  void cancelNotification(int id) {
     flutterLocalNotificationsPlugin.cancel(id);
     print('$id canceled');
   }

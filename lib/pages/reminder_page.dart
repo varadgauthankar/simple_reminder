@@ -2,6 +2,7 @@ import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:simple_reminder/controllers/hive_controller.dart';
 import 'package:simple_reminder/models/reminder_model.dart';
+import 'package:simple_reminder/services/notification_service.dart';
 import 'package:simple_reminder/utils/date_time_picker.dart';
 import 'package:simple_reminder/utils/helpers.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
@@ -25,6 +26,8 @@ class _ReminderPageState extends State<ReminderPage> {
   TextEditingController titleController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
 
+  NotificationService notificationService = NotificationService();
+
   late String title;
   String? description;
   DateTime? dateTime;
@@ -32,6 +35,8 @@ class _ReminderPageState extends State<ReminderPage> {
 
   @override
   void initState() {
+    notificationService.init();
+
     if (widget.isEdit) {
       titleController.text = widget.reminder!.title;
       descriptionController.text = widget.reminder?.description ?? '';
@@ -144,6 +149,9 @@ class _ReminderPageState extends State<ReminderPage> {
 
           ReminderBox()..insertReminder(reminder);
 
+          if (dateTime != null)
+            notificationService.scheduleNotification(reminder);
+
           Navigator.pop(context);
         }
       },
@@ -173,7 +181,14 @@ class _ReminderPageState extends State<ReminderPage> {
                 isDone: this.isDone,
               );
 
+              //cancel the previous notification
+              notificationService.cancelNotification(widget.reminder!.key);
+
               ReminderBox()..updateReminder(widget.reminder!.key, reminder);
+
+              //set new notification
+              if (reminder.dateTime != null)
+                notificationService.scheduleNotification(reminder);
 
               Navigator.pop(context);
             }
@@ -188,6 +203,7 @@ class _ReminderPageState extends State<ReminderPage> {
               context: context,
               builder: (context) => DeleteAlertDialog(
                 onPressed: () {
+                  notificationService.cancelNotification(widget.reminder!.key);
                   ReminderBox().deleteReminder(widget.reminder!.key);
                   Navigator.pop(context);
                   Navigator.pop(context);
