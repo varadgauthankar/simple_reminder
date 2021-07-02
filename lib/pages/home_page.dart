@@ -38,8 +38,27 @@ class _HomePageState extends State<HomePage> {
                     itemCount: remindersList.length,
                     itemBuilder: (context, index) {
                       var reminder = remindersList[index];
-
-                      return ReminderCard(reminder);
+                      return Dismissible(
+                        key: UniqueKey(),
+                        child: ReminderCard(reminder),
+                        direction: DismissDirection.startToEnd,
+                        background: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(left: 24.0),
+                              child: Icon(
+                                EvaIcons.trash,
+                                color: Theme.of(context).colorScheme.error,
+                              ),
+                            ),
+                          ],
+                        ),
+                        onDismissed: (_) {
+                          ReminderBox().deleteReminder(reminder.key);
+                          snackBar(context, 'Reminder deleted');
+                        },
+                      );
                     },
                   );
                 } else {
