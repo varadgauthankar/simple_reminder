@@ -27,6 +27,7 @@ class _ReminderPageState extends State<ReminderPage> {
   TextEditingController descriptionController = TextEditingController();
 
   NotificationService notificationService = NotificationService();
+  ReminderBox reminderBox = ReminderBox();
 
   late String title;
   String? description;
@@ -49,6 +50,14 @@ class _ReminderPageState extends State<ReminderPage> {
     super.initState();
   }
 
+  void deleteReminder() {
+    notificationService.cancelNotification(widget.reminder!.key);
+
+    reminderBox.deleteReminder(widget.reminder!.key);
+    Navigator.pop(context);
+    Navigator.pop(context);
+  }
+
   @override
   void dispose() {
     titleController.dispose();
@@ -61,6 +70,23 @@ class _ReminderPageState extends State<ReminderPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.isEdit ? 'Edit Reminder' : 'Create Reminder'),
+        actions: [
+          // delete Reminder icon
+          widget.isEdit
+              ? IconButton(
+                  icon: Icon(EvaIcons.trashOutline),
+                  tooltip: 'Delete reminder',
+                  onPressed: () {
+                    showDialog(
+                      context: context,
+                      builder: (context) => DeleteAlertDialog(
+                        onPressed: deleteReminder,
+                      ),
+                    );
+                  },
+                )
+              : SizedBox.shrink(),
+        ],
       ),
       body: ListView(
         padding: EdgeInsets.all(8.0),
@@ -115,104 +141,54 @@ class _ReminderPageState extends State<ReminderPage> {
                         : getFormattedDate(dateTime))
                   ],
                 ),
+                style: TextButton.styleFrom(
+                  backgroundColor:
+                      Theme.of(context).accentColor.withOpacity(0.1),
+                ),
                 onPressed: () async {
-                  DateTime pickedDateTime = await pickDateTime(context);
+                  DateTime? pickedDateTime = await pickDateTime(context);
                   setState(() {
                     dateTime = pickedDateTime;
                   });
                 },
-                style: TextButton.styleFrom(
-                    backgroundColor:
-                        Theme.of(context).accentColor.withOpacity(0.1)),
               )
             ],
           )
         ],
       ),
-      floatingActionButton:
-          widget.isEdit ? editExerciseButton() : createExerciseButton(),
-    );
-  }
+      floatingActionButton: FloatingActionButton(
+        heroTag: 'fab',
+        child: Icon(EvaIcons.checkmarkOutline),
+        onPressed: () {
+          if (formKey.currentState!.validate()) {
+            Reminder reminder = Reminder(
+              title: this.title,
+              description: this.description,
+              dateTime: this.dateTime,
+              isDone: this.isDone,
+            );
 
-  Widget createExerciseButton() {
-    return FloatingActionButton(
-      heroTag: 'fab',
-      child: Icon(EvaIcons.checkmarkOutline),
-      onPressed: () {
-        if (formKey.currentState!.validate()) {
-          Reminder reminder = Reminder(
-            title: this.title,
-            description: this.description,
-            dateTime: this.dateTime,
-            isDone: this.isDone,
-          );
+            if (widget.isEdit) {
+              notificationService.updateNotification(reminder);
 
-          ReminderBox()..insertReminder(reminder);
-
-          if (dateTime != null)
-            notificationService.scheduleNotification(reminder);
-
-          Navigator.pop(context);
-        }
-      },
-    );
-  }
-
-  //SpeedDial Floating action button
-  SpeedDial editExerciseButton() {
-    return SpeedDial(
-      animatedIcon: AnimatedIcons.menu_close,
-      heroTag: 'fab',
-      elevation: 3.0,
-      closeManually: false,
-      backgroundColor: Colors.pink,
-      foregroundColor: Colors.black,
-      children: [
-        SpeedDialChild(
-          child: Icon(EvaIcons.saveOutline),
-          backgroundColor: Colors.green,
-          label: 'Save',
-          onTap: () {
-            if (formKey.currentState!.validate()) {
-              Reminder reminder = Reminder(
-                title: this.title,
-                description: this.description,
-                dateTime: this.dateTime,
-                isDone: this.isDone,
-              );
-
-              //cancel the previous notification
-              notificationService.cancelNotification(widget.reminder!.key);
-
-              ReminderBox()..updateReminder(widget.reminder!.key, reminder);
+              reminderBox.updateReminder(widget.reminder!.key, reminder);
 
               //set new notification
               if (reminder.dateTime != null)
                 notificationService.scheduleNotification(reminder);
 
               Navigator.pop(context);
+            } else {
+              reminderBox.insertReminder(reminder);
+
+              if (dateTime != null)
+                notificationService.scheduleNotification(reminder);
+
+              Navigator.pop(context);
             }
-          },
-        ),
-        SpeedDialChild(
-          child: Icon(EvaIcons.trashOutline),
-          backgroundColor: Colors.blue,
-          label: 'Delete',
-          onTap: () {
-            showDialog(
-              context: context,
-              builder: (context) => DeleteAlertDialog(
-                onPressed: () {
-                  notificationService.cancelNotification(widget.reminder!.key);
-                  ReminderBox().deleteReminder(widget.reminder!.key);
-                  Navigator.pop(context);
-                  Navigator.pop(context);
-                },
-              ),
-            );
-          },
-        ),
-      ],
+          }
+        },
+      ),
     );
   }
 }

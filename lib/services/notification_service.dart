@@ -70,6 +70,22 @@ class NotificationService {
     }
   }
 
+  Future<bool> reminderHasNotification(Reminder reminder) async {
+    var pendingNotifications =
+        await flutterLocalNotificationsPlugin.pendingNotificationRequests();
+    return pendingNotifications
+        .any((notification) => notification.id == reminder.key);
+  }
+
+  void updateNotification(Reminder reminder) async {
+    var hasNotification = await reminderHasNotification(reminder);
+    if (hasNotification) {
+      flutterLocalNotificationsPlugin.cancel(reminder.key);
+    }
+
+    scheduleNotification(reminder);
+  }
+
   void cancelNotification(int id) {
     flutterLocalNotificationsPlugin.cancel(id);
     print('$id canceled');

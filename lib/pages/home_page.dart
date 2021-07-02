@@ -5,6 +5,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:simple_reminder/models/reminder_model.dart';
 import 'package:simple_reminder/pages/reminder_page.dart';
 import 'package:simple_reminder/utils/helpers.dart';
+import 'package:simple_reminder/widgets/empty_page.dart';
 import 'package:simple_reminder/widgets/reaminder_card.dart';
 
 class HomePage extends StatefulWidget {
@@ -35,11 +36,12 @@ class _HomePageState extends State<HomePage> {
                     itemCount: remindersList.length,
                     itemBuilder: (context, index) {
                       var reminder = remindersList[index];
+
                       return ReminderCard(reminder);
                     },
                   );
                 } else {
-                  return Center(child: Text('No reminders yet!'));
+                  return EmptyPage();
                 }
               },
             ),
