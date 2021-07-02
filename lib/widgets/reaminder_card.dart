@@ -46,6 +46,10 @@ class ReminderCard extends StatelessWidget {
                         : SizedBox.shrink(),
                   ],
                 ),
+                //add a little space between titile and desc.
+                reminder.description != null
+                    ? SizedBox(height: 4.0)
+                    : SizedBox.shrink(),
                 reminder.description != null
                     ? Text(
                         reminder.description!,

@@ -29,7 +29,9 @@ class _HomePageState extends State<HomePage> {
             child: ValueListenableBuilder(
               valueListenable: reminderBox.box.listenable(),
               builder: (context, Box<Reminder> reminders, widget) {
-                List<Reminder> remindersList = reminders.values.toList();
+                List<Reminder> listFromBox = reminders.values.toList();
+                //reversing the list to show new items on top
+                List<Reminder> remindersList = listFromBox.reversed.toList();
                 if (remindersList.isNotEmpty) {
                   return ListView.builder(
                     padding: EdgeInsets.all(4.0),
