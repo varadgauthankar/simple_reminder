@@ -174,15 +174,22 @@ class _ReminderPageState extends State<ReminderPage> {
               reminderBox.updateReminder(widget.reminder!.key, reminder);
 
               //set new notification
-              if (reminder.dateTime != null)
+              if (reminder.dateTime != null) {
                 notificationService.scheduleNotification(reminder);
+
+                snackBar(context,
+                    'Notification set at ${getFormattedDate(dateTime)}');
+              }
 
               Navigator.pop(context);
             } else {
               reminderBox.insertReminder(reminder);
 
-              if (dateTime != null)
+              if (dateTime != null) {
                 notificationService.scheduleNotification(reminder);
+                snackBar(context,
+                    'Notification set at ${getFormattedDate(dateTime)}');
+              }
 
               Navigator.pop(context);
             }
