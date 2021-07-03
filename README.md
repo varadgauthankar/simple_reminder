@@ -1,8 +1,12 @@
-# SIMPLE REMINDER
-
 <p align="center">
 <img style= "border-radius : 8px " height="150px" width="150px" src="screenshots/logo.png" alt="gymlog"/>
 </p>
+
+# SIMPLE REMINDER
+
+ <hr />
+ 
+![GitHub issues](https://img.shields.io/github/issues/varadgauthankar/simple_reminder)
 
 Simple Reminder is an app that helps you to get things done. Simply choose a time for the reminder, enter a title and your note and we will take it from there!
 
