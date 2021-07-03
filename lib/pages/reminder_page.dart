@@ -5,7 +5,6 @@ import 'package:simple_reminder/models/reminder_model.dart';
 import 'package:simple_reminder/services/notification_service.dart';
 import 'package:simple_reminder/utils/date_time_picker.dart';
 import 'package:simple_reminder/utils/helpers.dart';
-import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:simple_reminder/widgets/confirm_delete.dart';
 
 class ReminderPage extends StatefulWidget {

@@ -14,7 +14,6 @@ dependencies:
   eva_icons_flutter: ^3.0.0
   flutter_local_notifications: ^6.0.0
   flutter_native_timezone: ^2.0.0
-  flutter_speed_dial: ^3.0.5
   hive: ^2.0.4
   hive_flutter: ^1.1.0
   intl: ^0.17.0
