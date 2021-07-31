@@ -24,3 +24,4 @@ doc/api/
 *.jks
 key.properties
 
+.flutter-plugins-dependencies
