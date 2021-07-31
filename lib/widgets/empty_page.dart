@@ -17,7 +17,6 @@ class EmptyPage extends StatelessWidget {
           Text(
             'No reminders yet!',
             style: Theme.of(context).textTheme.headline6!.copyWith(
-                  color: Colors.black,
                   fontWeight: FontWeight.w600,
                 ),
           ),
