@@ -35,8 +35,11 @@ class NotificationService {
       'reminder',
       'Reminder Notification',
       'Notification sent as reminder',
-      importance: Importance.defaultImportance,
+      importance: Importance.max,
+      priority: Priority.high,
       enableVibration: true,
+      category: 'reminder',
+      icon: '@mipmap/ic_notification',
       groupKey: 'com.varadgauthankar.simple_reminder.REMINDER',
     );
   }
