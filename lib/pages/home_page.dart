@@ -34,7 +34,7 @@ class _HomePageState extends State<HomePage> {
                 var now = new DateTime.now();
                 List<Reminder> listFromBox = reminders.values
                     .where((reminder) =>
-                        (now.difference(reminder.dateTime!).inDays == 0))
+                        (now.difference(reminder.dateTime ?? now).inDays == 0))
                     .toList();
 
                 //reversing the list to show new items on top
