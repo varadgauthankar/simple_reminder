@@ -142,7 +142,7 @@ class _ReminderPageState extends State<ReminderPage> {
                 ),
                 style: TextButton.styleFrom(
                   backgroundColor:
-                      Theme.of(context).accentColor.withOpacity(0.1),
+                      Theme.of(context).colorScheme.secondary.withOpacity(0.1),
                 ),
                 onPressed: () async {
                   DateTime? pickedDateTime = await pickDateTime(context);
@@ -157,7 +157,7 @@ class _ReminderPageState extends State<ReminderPage> {
       ),
       floatingActionButton: FloatingActionButton(
         heroTag: 'fab',
-        child: Icon(EvaIcons.checkmarkOutline),
+        child: Icon(EvaIcons.checkmarkCircle2Outline),
         onPressed: () {
           if (formKey.currentState!.validate()) {
             Reminder reminder = Reminder(

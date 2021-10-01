@@ -29,7 +29,12 @@ class _HomePageState extends State<HomePage> {
             child: ValueListenableBuilder(
               valueListenable: reminderBox.box.listenable(),
               builder: (context, Box<Reminder> reminders, widget) {
-                List<Reminder> listFromBox = reminders.values.toList();
+                // List<Reminder> listFromBox = reminders.values.toList();
+                var now = new DateTime.now();
+                List<Reminder> listFromBox = reminders.values
+                    .where((reminder) => now.isBefore(reminder.dateTime!))
+                    .toList();
+
                 //reversing the list to show new items on top
                 List<Reminder> remindersList = listFromBox.reversed.toList();
                 if (remindersList.isNotEmpty) {
@@ -51,7 +56,7 @@ class _HomePageState extends State<HomePage> {
       ),
       floatingActionButton: FloatingActionButton(
         heroTag: 'fab',
-        child: Icon(EvaIcons.plusOutline),
+        child: Icon(EvaIcons.plusCircleOutline),
         onPressed: () => toPage(
             context,
             ReminderPage(
