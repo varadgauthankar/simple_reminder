@@ -157,7 +157,7 @@ class _ReminderPageState extends State<ReminderPage> {
       ),
       floatingActionButton: FloatingActionButton(
         heroTag: 'fab',
-        child: Icon(EvaIcons.checkmarkCircle),
+        child: Icon(EvaIcons.checkmarkOutline),
         onPressed: () {
           if (formKey.currentState!.validate()) {
             Reminder reminder = Reminder(

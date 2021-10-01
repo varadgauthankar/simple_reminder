@@ -58,7 +58,7 @@ class _HomePageState extends State<HomePage> {
       ),
       floatingActionButton: FloatingActionButton(
         heroTag: 'fab',
-        child: Icon(EvaIcons.plusCircle),
+        child: Icon(EvaIcons.plusOutline),
         onPressed: () => toPage(
             context,
             ReminderPage(
