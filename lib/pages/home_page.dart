@@ -1,6 +1,5 @@
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:simple_reminder/controllers/hive_controller.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:simple_reminder/models/reminder_model.dart';
@@ -33,8 +32,8 @@ class _HomePageState extends State<HomePage> {
                 // List<Reminder> listFromBox = reminders.values.toList();
                 var now = new DateTime.now();
                 List<Reminder> listFromBox = reminders.values
-                    .where((reminder) =>
-                        (now.difference(reminder.dateTime ?? now).inDays == 0))
+                    .where(
+                        (reminder) => (now.isBefore(reminder.dateTime ?? now)))
                     .toList();
 
                 //reversing the list to show new items on top
