@@ -142,7 +142,7 @@ class _ReminderPageState extends State<ReminderPage> {
                 ),
                 style: TextButton.styleFrom(
                   backgroundColor:
-                      Theme.of(context).accentColor.withOpacity(0.1),
+                      Theme.of(context).colorScheme.secondary.withOpacity(0.1),
                 ),
                 onPressed: () async {
                   DateTime? pickedDateTime = await pickDateTime(context);
