@@ -34,7 +34,7 @@ class NotificationService {
     return AndroidNotificationDetails(
       'reminder',
       'Reminder Notification',
-      'Notification sent as reminder',
+      channelDescription: 'Notification sent as reminder',
       importance: Importance.max,
       priority: Priority.high,
       enableVibration: true,
