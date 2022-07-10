@@ -4,7 +4,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 
 import 'package:simple_reminder/models/reminder_model.dart';
 import 'package:simple_reminder/pages/home_page.dart';
-import 'package:simple_reminder/utils/theme_data.dart';
+import 'package:simple_reminder/utils/color_scheme.dart';
 
 void main() async {
   await Hive.initFlutter();
@@ -19,8 +19,16 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'simple reminder',
-      theme: MyThemeData.light,
-      darkTheme: MyThemeData.dark,
+      theme: ThemeData(
+        scaffoldBackgroundColor: lightColorScheme.background,
+        useMaterial3: true,
+        colorScheme: lightColorScheme,
+      ),
+      darkTheme: ThemeData(
+        scaffoldBackgroundColor: darkColorScheme.background,
+        useMaterial3: true,
+        colorScheme: darkColorScheme,
+      ),
       themeMode: ThemeMode.system,
       home: HomePage(),
     );
