@@ -52,11 +52,7 @@ class _HomePageState extends State<HomePage> {
       floatingActionButton: FloatingActionButton(
         heroTag: 'fab',
         child: Icon(EvaIcons.plus),
-        onPressed: () => toPage(
-            context,
-            ReminderPage(
-              isEdit: false,
-            )),
+        onPressed: () => toPage(context, ReminderPage(isEdit: false)),
       ),
     );
   }

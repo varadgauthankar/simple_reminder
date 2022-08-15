@@ -6,6 +6,8 @@ import 'package:simple_reminder/services/notification_service.dart';
 import 'package:simple_reminder/utils/date_time_picker.dart';
 import 'package:simple_reminder/utils/helpers.dart';
 import 'package:simple_reminder/widgets/confirm_delete.dart';
+import 'package:simple_reminder/widgets/date_time_button.dart';
+import 'package:simple_reminder/widgets/text_form_field.dart';
 
 class ReminderPage extends StatefulWidget {
   final bool isEdit;
@@ -87,74 +89,52 @@ class _ReminderPageState extends State<ReminderPage> {
               : SizedBox.shrink(),
         ],
       ),
-      body: ListView(
-        padding: EdgeInsets.all(8.0),
-        children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Form(
-                key: formKey,
-                child: Column(
-                  children: [
-                    TextFormField(
-                      controller: titleController,
-                      keyboardType: TextInputType.text,
-                      decoration: InputDecoration(
-                        border: OutlineInputBorder(),
-                        labelText: "Title",
-                        hintText: "Title",
-                      ),
-                      onChanged: (value) => this.title = value,
-                      validator: (value) {
-                        if (value!.isEmpty)
-                          return 'Please enter the title';
-                        else
-                          return null;
-                      },
-                    ),
-                    SizedBox(height: 8.0),
-                    TextFormField(
-                      controller: descriptionController,
-                      keyboardType: TextInputType.multiline,
-                      decoration: InputDecoration(
-                        border: OutlineInputBorder(),
-                        labelText: "Description",
-                        hintText: "Description",
-                      ),
-                      maxLines: null,
-                      onChanged: (value) => this.description = value,
-                    ),
-                  ],
-                ),
-              ),
-              SizedBox(height: 8.0),
-              TextButton(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(EvaIcons.clockOutline),
-                    SizedBox(width: 8.0),
-                    Text(dateTime == null
-                        ? 'Add Date & Time'
-                        : getFormattedDate(dateTime))
-                  ],
-                ),
-                style: TextButton.styleFrom(
-                  backgroundColor:
-                      Theme.of(context).accentColor.withOpacity(0.1),
-                ),
-                onPressed: () async {
-                  DateTime? pickedDateTime = await pickDateTime(context);
-                  setState(() {
-                    dateTime = pickedDateTime;
-                  });
-                },
-              )
-            ],
-          )
-        ],
+      body: Form(
+        key: formKey,
+        child: ListView(
+          padding: EdgeInsets.all(8.0),
+          children: [
+            MyTextFromField(
+              labelText: 'Title',
+              controller: titleController,
+              keyboardType: TextInputType.text,
+              onChanged: (value) => this.title = value!,
+              validator: (value) {
+                if (value!.isEmpty)
+                  return 'Please enter the title';
+                else
+                  return null;
+              },
+            ),
+            SizedBox(height: 12.0),
+
+            MyTextFromField(
+              labelText: "Description",
+              controller: descriptionController,
+              keyboardType: TextInputType.multiline,
+              onChanged: (value) => this.description = value!,
+              validator: null,
+              maxLines: null,
+            ),
+            SizedBox(height: 10.0),
+
+            //button to select date and time
+            DateTimeButton(
+              text: dateTime == null
+                  ? 'Add Date & Time'
+                  : getFormattedDate(dateTime),
+              onPressed: () async {
+                DateTime? pickedDateTime = await pickDateTime(context);
+                setState(() {
+                  dateTime = pickedDateTime;
+                });
+              },
+            ),
+          ],
+        ),
       ),
+
+      // floating button
       floatingActionButton: FloatingActionButton(
         heroTag: 'fab',
         child: Icon(EvaIcons.checkmark),

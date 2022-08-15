@@ -17,36 +17,57 @@ class ReminderCard extends StatelessWidget {
       key: key,
       child: Container(
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(8.0),
+          borderRadius: BorderRadius.circular(12.0),
         ),
         margin: EdgeInsets.all(4.0),
         child: Material(
-          color: Theme.of(context).colorScheme.surface,
-          borderRadius: BorderRadius.circular(8.0),
+          color: Theme.of(context).colorScheme.secondaryContainer,
+          borderRadius: BorderRadius.circular(12.0),
           elevation: 2,
           child: InkWell(
-            borderRadius: BorderRadius.circular(8.0),
+            borderRadius: BorderRadius.circular(12.0),
             child: Padding(
-              padding: const EdgeInsets.all(12.0),
+              padding: const EdgeInsets.all(10.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       SizedBox(
-                        width: mqWidth * 0.60,
+                        width: reminder.dateTime != null
+                            ? mqWidth * 0.50
+                            : mqWidth * 0.85,
                         child: Text(
                           reminder.title,
                           overflow: TextOverflow.ellipsis,
-                          maxLines: 1,
-                          style: Theme.of(context).textTheme.headline6,
+                          maxLines: 2,
+                          style: TextStyle(
+                            height: 1.1,
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            color: Theme.of(context)
+                                .colorScheme
+                                .onPrimaryContainer,
+                          ),
                         ),
                       ),
+
+                      // date of the reminder
                       reminder.dateTime != null
-                          ? Text(
-                              getFormattedDate(reminder.dateTime),
-                              style: Theme.of(context).textTheme.bodyText1,
+                          ? Chip(
+                              backgroundColor:
+                                  Theme.of(context).colorScheme.primary,
+                              label: Text(
+                                getFormattedDate(reminder.dateTime),
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.bold,
+                                  color:
+                                      Theme.of(context).colorScheme.onPrimary,
+                                ),
+                              ),
                             )
                           : SizedBox.shrink(),
                     ],
@@ -60,7 +81,7 @@ class ReminderCard extends StatelessWidget {
                           reminder.description!,
                           overflow: TextOverflow.ellipsis,
                           maxLines: 2,
-                          style: Theme.of(context).textTheme.subtitle1,
+                          style: TextStyle(fontSize: 16, height: 1.2),
                         )
                       : SizedBox.shrink(),
                 ],
