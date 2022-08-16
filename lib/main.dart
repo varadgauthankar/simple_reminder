@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:provider/provider.dart';
 
 import 'package:simple_reminder/models/reminder_model.dart';
 import 'package:simple_reminder/pages/home_page.dart';
-import 'package:simple_reminder/utils/theme_data.dart';
+import 'package:simple_reminder/providers/reminder_provider.dart';
+import 'package:simple_reminder/utils/color_scheme.dart';
 
 void main() async {
   await Hive.initFlutter();
@@ -16,13 +17,26 @@ void main() async {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'simple reminder',
-      theme: MyThemeData.light,
-      darkTheme: MyThemeData.dark,
-      themeMode: ThemeMode.system,
-      home: HomePage(),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => ReminderProvider()),
+      ],
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'Simple Reminder',
+        theme: ThemeData(
+          scaffoldBackgroundColor: lightColorScheme.background,
+          useMaterial3: true,
+          colorScheme: lightColorScheme,
+        ),
+        darkTheme: ThemeData(
+          scaffoldBackgroundColor: darkColorScheme.background,
+          useMaterial3: true,
+          colorScheme: darkColorScheme,
+        ),
+        themeMode: ThemeMode.system,
+        home: HomePage(),
+      ),
     );
   }
 }
