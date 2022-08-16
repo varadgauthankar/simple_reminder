@@ -18,7 +18,7 @@ class DateTimeButton extends StatelessWidget {
         children: [
           Icon(EvaIcons.clockOutline),
           SizedBox(width: 8.0),
-          Text(text)
+          Flexible(child: Text(text))
         ],
       ),
       onPressed: onPressed,

@@ -120,14 +120,17 @@ class _ReminderPageState extends State<ReminderPage> {
                 SizedBox(height: 10.0),
 
                 //button to select date and time
-                DateTimeButton(
-                  text: value.dateTime == null
-                      ? 'Add Date & Time'
-                      : getFormattedDate(value.dateTime),
-                  onPressed: () async {
-                    DateTime? pickedDateTime = await pickDateTime(context);
-                    value.setDateTime(pickedDateTime);
-                  },
+                Hero(
+                  tag: widget.reminder?.key ?? '',
+                  child: DateTimeButton(
+                    text: value.dateTime == null
+                        ? 'Add Date & Time'
+                        : getFormattedDate(value.dateTime),
+                    onPressed: () async {
+                      DateTime? pickedDateTime = await pickDateTime(context);
+                      value.setDateTime(pickedDateTime);
+                    },
+                  ),
                 ),
               ],
             ),

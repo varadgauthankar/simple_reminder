@@ -34,11 +34,12 @@ class _HomePageState extends State<HomePage> {
                 List<Reminder> remindersList = listFromBox.reversed.toList();
                 if (remindersList.isNotEmpty) {
                   return ListView.builder(
-                    padding: EdgeInsets.all(4.0),
+                    padding: EdgeInsets.all(12.0),
+                    physics: const BouncingScrollPhysics(),
                     itemCount: remindersList.length,
                     itemBuilder: (context, index) {
                       var reminder = remindersList[index];
-                      return ReminderCard(reminder, key: UniqueKey());
+                      return ReminderCard(reminder);
                     },
                   );
                 } else {
