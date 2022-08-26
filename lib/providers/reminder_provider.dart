@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:simple_reminder/controllers/hive_controller.dart';
+import 'package:simple_reminder/enums/reminder_repeat.dart';
 import 'package:simple_reminder/models/reminder_model.dart';
 import 'package:simple_reminder/services/notification_service.dart';
 
@@ -13,7 +14,8 @@ class ReminderProvider extends ChangeNotifier {
   DateTime? _dateTime;
   DateTime? get dateTime => _dateTime;
 
-  GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  ReminderRepeat _reminderRepeat = ReminderRepeat.never;
+  ReminderRepeat get reminderRepeat => _reminderRepeat;
 
   NotificationService _notificationService = NotificationService();
   ReminderBox _reminderBox = ReminderBox();
@@ -30,6 +32,11 @@ class ReminderProvider extends ChangeNotifier {
 
   void setDateTime(DateTime? dateTime) {
     _dateTime = dateTime;
+    notifyListeners();
+  }
+
+  void setReminderRepeat(ReminderRepeat reminderRepeat) {
+    _reminderRepeat = reminderRepeat;
     notifyListeners();
   }
 

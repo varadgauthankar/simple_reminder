@@ -2,6 +2,7 @@ import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_reminder/controllers/hive_controller.dart';
+import 'package:simple_reminder/enums/reminder_repeat.dart';
 import 'package:simple_reminder/models/reminder_model.dart';
 import 'package:simple_reminder/providers/reminder_provider.dart';
 import 'package:simple_reminder/services/notification_service.dart';
@@ -119,6 +120,16 @@ class _ReminderPageState extends State<ReminderPage> {
                 ),
                 SizedBox(height: 10.0),
 
+                Row(
+                  children: [
+                    Text('Repeat'),
+                    Spacer(),
+                    Wrap(
+                      children: _buildReminderRepeat(value),
+                    )
+                  ],
+                ),
+
                 //button to select date and time
                 Hero(
                   tag: widget.reminder?.key ?? '',
@@ -158,5 +169,31 @@ class _ReminderPageState extends State<ReminderPage> {
         );
       },
     );
+  }
+
+  List<Widget> _buildReminderRepeat(ReminderProvider value) {
+    List<Widget> widgets = [];
+    for (var repeat in ReminderRepeat.values) {
+      widgets.add(
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 2.0),
+          child: ChoiceChip(
+              onSelected: (_) {
+                value.setReminderRepeat(repeat);
+              },
+              selectedColor: Theme.of(context).colorScheme.primary,
+              selected: value.reminderRepeat == repeat,
+              label: Text(
+                repeat.name,
+                style: TextStyle(
+                  color: value.reminderRepeat == repeat
+                      ? Theme.of(context).colorScheme.onPrimary
+                      : Theme.of(context).colorScheme.onSecondaryContainer,
+                ),
+              )),
+        ),
+      );
+    }
+    return widgets;
   }
 }
